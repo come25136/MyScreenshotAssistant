@@ -17,6 +17,8 @@ namespace MyScreenshotAssistant_for_c_sharp
         public MainForm()
         {
             InitializeComponent();
+
+            Text = Text + " " + Properties.Settings.Default.version;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -28,25 +30,40 @@ namespace MyScreenshotAssistant_for_c_sharp
             textBox_hashtag.Text = Properties.Settings.Default.Hashtag;
         }
 
+        private void button_path_Click(object sender, EventArgs e)
+        {
+            var Dialog = new CommonOpenFileDialog();
+            Dialog.IsFolderPicker = true;
+            Dialog.EnsureReadOnly = false;
+            Dialog.AllowNonFileSystemItems = false;
+
+            if (Properties.Settings.Default.DirectoryPath != null)
+            {
+                Dialog.DefaultDirectory = Properties.Settings.Default.DirectoryPath;
+            }
+            else
+            {
+                Dialog.DefaultDirectory = Application.StartupPath;
+            }
+
+            if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
+            {
+                Properties.Settings.Default.DirectoryPath = Dialog.FileName;
+                textBox_DP.Text = Dialog.FileName;
+            }
+        }
+
         private void button_start_Click(object sender, EventArgs e)
         {
             if (watcher != null)
             {
-                MessageBox.Show("Assistantは既にStartしています",
-                    "Info",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
+                Program.message("Info", "Assistantは既にStartしています");
                 return;
             };
 
             if (textBox_DP.Text == "")
             {
-                MessageBox.Show("ディレクトリが選択されていません",
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
+                Program.message("Error", "ディレクトリが選択されていません");
                 return;
 
             }
@@ -67,7 +84,7 @@ namespace MyScreenshotAssistant_for_c_sharp
 
             Text = "MyScreenshotAssistant - Status start";
 
-            logfile("Info", Text);
+            Program.logfile("Info", "Assistant start");
 
             notifyIcon1.BalloonTipText = "Assistant start";
             notifyIcon1.ShowBalloonTip(2000);
@@ -77,10 +94,7 @@ namespace MyScreenshotAssistant_for_c_sharp
         {
             if (watcher == null)
             {
-                MessageBox.Show("Assistantは既にStopしています",
-                    "Info",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
+               　Program.message("Info", "Assistantは既にStopしています");
 
                 return;
             }
@@ -91,7 +105,7 @@ namespace MyScreenshotAssistant_for_c_sharp
 
             Text = "MyScreenshotAssistant - Status stop";
 
-            logfile("Info", Text);
+            Program.logfile("Info", "Assistant stop");
 
             notifyIcon1.BalloonTipText = "Assistant stop";
             notifyIcon1.ShowBalloonTip(2000);
@@ -110,9 +124,9 @@ namespace MyScreenshotAssistant_for_c_sharp
                             status: textBox_twtxt.Text.Replace(@"\n", "\n") + " " + textBox_hashtag.Text.Replace(@"\n", "\n") + " #comeMSA \n" + e.Name,
                             media_ids: result.Select(x => x.MediaId)
                         );
-                        logfile("Info", "Success tweet");
+                        Program.logfile("Info", "Success tweet");
                     } catch(Exception ex) {
-                        logfile("Error", ex.Message);
+                        Program.logfile("Error", ex.Message);
 
                         notifyIcon1.BalloonTipText = "ツイートに失敗しました";
                         notifyIcon1.ShowBalloonTip(2000);
@@ -121,39 +135,14 @@ namespace MyScreenshotAssistant_for_c_sharp
             }
         }
 
-        private void button_path_Click(object sender, EventArgs e)
-        {
-            var Dialog = new CommonOpenFileDialog();
-            Dialog.IsFolderPicker = true;
-            Dialog.EnsureReadOnly = false;
-            Dialog.AllowNonFileSystemItems = false;
-
-            if (Properties.Settings.Default.DirectoryPath != null)
-            {
-                Dialog.DefaultDirectory = Properties.Settings.Default.DirectoryPath;
-            } else {
-                Dialog.DefaultDirectory = Application.StartupPath;
-            }
-
-            if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                Properties.Settings.Default.DirectoryPath = Dialog.FileName;
-                textBox_DP.Text = Dialog.FileName;
-            }
-        }
-
         private void button_Auth_Click(object sender, EventArgs e)
         {
             Properties.Settings.Default.AccessToken = null;
             Properties.Settings.Default.AccessTokenSecret = null;
+            
+            Program.message("Info", "認証情報を削除しました\nソフトを再起動してください");
 
-            var text = "認証情報を削除しました\nソフトを再起動してください";
-            MessageBox.Show(text,
-                    "Info",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information);
-
-            logfile("Info", text);
+            Program.logfile("Info", "Authentication information Delete");
 
             exit();
         }
@@ -161,21 +150,6 @@ namespace MyScreenshotAssistant_for_c_sharp
         private void context_exit_Click(object sender, EventArgs e)
         {
             exit();
-        }
-
-        private void exit()
-        {
-            Properties.Settings.Default.DirectoryPath = textBox_DP.Text;
-            Properties.Settings.Default.TweetText = textBox_twtxt.Text;
-            Properties.Settings.Default.Hashtag = textBox_hashtag.Text;
-            Properties.Settings.Default.Save();
-
-            Application.Exit();
-        }
-
-        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
-        {
-            Show();
         }
 
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -190,10 +164,24 @@ namespace MyScreenshotAssistant_for_c_sharp
             }
         }
 
-        public static void logfile(string level, string value)
+        private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
-            System.IO.File.AppendAllText("MSA.log", DateTime.Now.ToString("yyyy/MM/dd HH:mm:ss") + " " + level + ": " + value);
-            return;
+            Show();
+        }
+
+        private void exit()
+        {
+            Properties.Settings.Default.DirectoryPath = textBox_DP.Text;
+            Properties.Settings.Default.TweetText = textBox_twtxt.Text;
+            Properties.Settings.Default.Hashtag = textBox_hashtag.Text;
+            Properties.Settings.Default.Save();
+
+            if (watcher != null)
+            {
+                Program.logfile("Info", "Assistant stop");
+            }
+
+            Application.Exit();
         }
     }
 }

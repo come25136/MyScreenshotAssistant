@@ -62,6 +62,7 @@
             this.textbox_pin.Name = "textbox_pin";
             this.textbox_pin.Size = new System.Drawing.Size(271, 19);
             this.textbox_pin.TabIndex = 2;
+            this.textbox_pin.KeyDown += new System.Windows.Forms.KeyEventHandler(this.textbox_pin_KeyDown);
             // 
             // label1
             // 
