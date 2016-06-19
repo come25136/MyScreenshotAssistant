@@ -1,5 +1,13 @@
 # MyScreenshotAssistant
 
+## API Keys
+[Program.cs](https://github.com/come25136/MyScreenshotAssistant/blob/master/MineScreenshotAssistant_for_c-sharp/Program.cs)
+
+```c#
+public static string consumerKey = "Consumer Key";
+public static string cosumerSecret = "Consumer Secret";
+```
+
 ## license
 MIT License
 
