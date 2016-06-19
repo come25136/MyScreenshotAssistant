@@ -1,5 +1,6 @@
 ﻿using ClipBoard;
 using System;
+using System.Deployment.Application;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
@@ -17,7 +18,7 @@ namespace MyScreenshotAssistant_for_c_sharp
 
         private void LoginForm_Load(object sender, EventArgs e)
         {
-            Text = Text + " " + Properties.Settings.Default.version;
+            Text = Text + " ver:" + ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
             string url = session.AuthorizeUri.ToString();
             textbox_url.Text = url;
 
@@ -58,11 +59,11 @@ namespace MyScreenshotAssistant_for_c_sharp
         {
             if (textbox_pin.Text == "")
             {
-                MessageBox.Show("Error", "PINコードを入力してください");
+                Program.message("Error", "PINコードを入力してください");
             }
             else if (Regex.IsMatch(textbox_pin.Text, "[^0-9]+$"))
             {
-                MessageBox.Show("Error", "半角数字を入力してください");
+                Program.message("Error", "半角数字を入力してください");
             }
             else
             {

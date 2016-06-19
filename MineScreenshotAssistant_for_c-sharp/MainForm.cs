@@ -1,6 +1,7 @@
 ﻿using CoreTweet;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Deployment.Application;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,7 +19,10 @@ namespace MyScreenshotAssistant_for_c_sharp
         {
             InitializeComponent();
 
-            Text = Text + " " + Properties.Settings.Default.version;
+            if (ApplicationDeployment.IsNetworkDeployed)
+            {
+                Text = Text + " ver:" + ApplicationDeployment.CurrentDeployment.CurrentVersion.ToString();
+            }
         }
 
         private void MainForm_Load(object sender, EventArgs e)

@@ -82,14 +82,5 @@ namespace MyScreenshotAssistant_for_c_sharp.Properties {
                 this["Hashtag"] = value;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("v1.2.0")]
-        public string version {
-            get {
-                return ((string)(this["version"]));
-            }
-        }
     }
 }
