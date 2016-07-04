@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyScreenshotAssistant_for_c_sharp.Properties {
+namespace MyScreenshotAssistant.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -80,6 +80,18 @@ namespace MyScreenshotAssistant_for_c_sharp.Properties {
             }
             set {
                 this["Hashtag"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool IsUpgrade {
+            get {
+                return ((bool)(this["IsUpgrade"]));
+            }
+            set {
+                this["IsUpgrade"] = value;
             }
         }
     }

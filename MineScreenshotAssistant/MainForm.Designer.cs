@@ -1,4 +1,4 @@
-﻿namespace MyScreenshotAssistant_for_c_sharp
+﻿namespace MyScreenshotAssistant
 {
     partial class MainForm
     {
@@ -45,6 +45,7 @@
             this.textBox_twtxt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_hashtag = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.contextMenuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -162,7 +163,7 @@
             // 
             this.textBox_twtxt.Location = new System.Drawing.Point(91, 65);
             this.textBox_twtxt.Name = "textBox_twtxt";
-            this.textBox_twtxt.Size = new System.Drawing.Size(225, 19);
+            this.textBox_twtxt.Size = new System.Drawing.Size(203, 19);
             this.textBox_twtxt.TabIndex = 9;
             // 
             // label4
@@ -180,12 +181,24 @@
             this.textBox_hashtag.Size = new System.Drawing.Size(224, 19);
             this.textBox_hashtag.TabIndex = 11;
             // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Checked = true;
+            this.checkBox1.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.checkBox1.Location = new System.Drawing.Point(300, 68);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(15, 14);
+            this.checkBox1.TabIndex = 12;
+            this.checkBox1.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(328, 172);
+            this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox_hashtag);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.textBox_twtxt);
@@ -199,6 +212,7 @@
             this.Controls.Add(this.textbox_twitterid);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainForm";
             this.Text = "MyScreenshotAssistant";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
@@ -226,5 +240,6 @@
         private System.Windows.Forms.ContextMenuStrip contextMenuStrip1;
         private System.Windows.Forms.ToolStripMenuItem context_exit;
         public System.Windows.Forms.NotifyIcon notifyIcon1;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

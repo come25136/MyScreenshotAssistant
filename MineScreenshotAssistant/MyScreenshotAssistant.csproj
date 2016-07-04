@@ -7,9 +7,9 @@
     <ProjectGuid>{CAD0DA5D-E355-4F86-A720-ADD7DC165CCC}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MyScreenshotAssistant_for_c_sharp</RootNamespace>
+    <RootNamespace>MyScreenshotAssistant</RootNamespace>
     <AssemblyName>MSA</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -25,15 +25,13 @@
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
     <InstallUrl>http://clickonceget.azurewebsites.net/app/MSA/</InstallUrl>
-    <UpdateUrl>http://clickonceget.azurewebsites.net/app/MSA/</UpdateUrl>
     <TargetCulture>ja</TargetCulture>
     <ProductName>MyScreenshotAssistant</ProductName>
     <PublisherName>MyScreenshotAssistant</PublisherName>
-    <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
     <OpenBrowserOnPublish>false</OpenBrowserOnPublish>
-    <ApplicationRevision>2</ApplicationRevision>
-    <ApplicationVersion>1.3.0.2</ApplicationVersion>
+    <ApplicationRevision>4</ApplicationRevision>
+    <ApplicationVersion>1.4.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <CreateDesktopShortcut>true</CreateDesktopShortcut>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -117,6 +115,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="API-Keys.cs" />
     <Compile Include="Clipboard.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -132,6 +131,7 @@
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Method.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Settings2.Designer.cs">
@@ -140,6 +140,16 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Setting.cs" />
+    <Compile Include="Settings.cs" />
+    <Compile Include="Tweet.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Tweet.Designer.cs">
+      <DependentUpon>Tweet.cs</DependentUpon>
+    </Compile>
+    <Compile Include="TextBoxEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <EmbeddedResource Include="LoginForm.resx">
       <DependentUpon>LoginForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -156,6 +166,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="Tweet.resx">
+      <DependentUpon>Tweet.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
     <None Include="Properties\Settings.settings">

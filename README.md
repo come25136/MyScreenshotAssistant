@@ -1,7 +1,7 @@
 # MyScreenshotAssistant
 
 ## API Keys
-[Program.cs](https://github.com/come25136/MyScreenshotAssistant/blob/master/MineScreenshotAssistant_for_c-sharp/Program.cs)
+[API-Keys.cs](https://github.com/come25136/MyScreenshotAssistant/blob/master/MineScreenshotAssistant/API-Keys.cs)
 
 ```c#
 public static string consumerKey = "Consumer Key";
@@ -23,4 +23,10 @@ MIT License
 >The MIT License (MIT)  
 
 >Copyright (c) 2007 James Newton-King  
->https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE.md
+>https://github.com/JamesNK/Newtonsoft.Json/blob/master/LICENSE
+
+### [Windows-API-Code-Pack-1.1](https://github.com/devkimchi/Windows-API-Code-Pack-1.1)
+>The MIT License (MIT)  
+
+>Copyright (c) 2014 Dev Kimchi  
+>https://github.com/devkimchi/Windows-API-Code-Pack-1.1/blob/master/LICENSE

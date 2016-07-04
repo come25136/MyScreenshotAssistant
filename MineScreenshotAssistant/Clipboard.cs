@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Copyright 2013 LAVN
+// http://lavn.blog.fc2.com/blog-category-5.html
+
+using System;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 

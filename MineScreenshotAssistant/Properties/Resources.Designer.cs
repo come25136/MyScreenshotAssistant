@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MyScreenshotAssistant_for_c_sharp.Properties {
+namespace MyScreenshotAssistant.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace MyScreenshotAssistant_for_c_sharp.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyScreenshotAssistant_for_c_sharp.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("MyScreenshotAssistant.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

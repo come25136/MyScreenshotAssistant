@@ -1,4 +1,4 @@
-﻿namespace MyScreenshotAssistant_for_c_sharp
+﻿namespace MyScreenshotAssistant
 {
     partial class LoginForm
     {
@@ -28,22 +28,24 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.button1 = new System.Windows.Forms.Button();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(LoginForm));
+            this.Auth_button = new System.Windows.Forms.Button();
             this.textbox_url = new System.Windows.Forms.TextBox();
             this.textbox_pin = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.url_open_button = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
-            // button1
+            // Auth_button
             // 
-            this.button1.Location = new System.Drawing.Point(14, 64);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(302, 39);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "認証";
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.Auth_button.Location = new System.Drawing.Point(14, 64);
+            this.Auth_button.Name = "Auth_button";
+            this.Auth_button.Size = new System.Drawing.Size(302, 39);
+            this.Auth_button.TabIndex = 0;
+            this.Auth_button.Text = "認証";
+            this.Auth_button.UseVisualStyleBackColor = true;
+            this.Auth_button.Click += new System.EventHandler(this.Auth_button_Click);
             // 
             // textbox_url
             // 
@@ -52,7 +54,7 @@
             this.textbox_url.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.textbox_url.Name = "textbox_url";
             this.textbox_url.ReadOnly = true;
-            this.textbox_url.Size = new System.Drawing.Size(270, 19);
+            this.textbox_url.Size = new System.Drawing.Size(217, 19);
             this.textbox_url.TabIndex = 1;
             // 
             // textbox_pin
@@ -86,18 +88,30 @@
             this.label2.Text = "PIN";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // url_open_button
+            // 
+            this.url_open_button.Location = new System.Drawing.Point(269, 10);
+            this.url_open_button.Name = "url_open_button";
+            this.url_open_button.Size = new System.Drawing.Size(47, 19);
+            this.url_open_button.TabIndex = 5;
+            this.url_open_button.Text = "開く";
+            this.url_open_button.UseVisualStyleBackColor = true;
+            this.url_open_button.Click += new System.EventHandler(this.url_open_button_Click);
+            // 
             // LoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(328, 115);
+            this.Controls.Add(this.url_open_button);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.textbox_pin);
             this.Controls.Add(this.textbox_url);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Auth_button);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "LoginForm";
             this.Text = "MyScreenshotAssistant - Twitter login";
             this.Load += new System.EventHandler(this.LoginForm_Load);
@@ -108,11 +122,12 @@
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Auth_button;
         private System.Windows.Forms.TextBox textbox_url;
         private System.Windows.Forms.TextBox textbox_pin;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button url_open_button;
     }
 }
 
