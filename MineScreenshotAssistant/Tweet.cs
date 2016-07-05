@@ -23,7 +23,7 @@ namespace MyScreenshotAssistant
             // ツイート
             if (e.KeyCode == Keys.Enter && e.Control == true)
             {
-                cancel_flag = true;
+                cancel_flag = false;
 
                 if (textBox_value.Text != "")
                 {
