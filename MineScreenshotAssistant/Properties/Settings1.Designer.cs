@@ -50,18 +50,6 @@ namespace MyScreenshotAssistant.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string DirectoryPath {
-            get {
-                return ((string)(this["DirectoryPath"]));
-            }
-            set {
-                this["DirectoryPath"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
         public string TweetText {
             get {
                 return ((string)(this["TweetText"]));
@@ -92,6 +80,27 @@ namespace MyScreenshotAssistant.Properties {
             }
             set {
                 this["IsUpgrade"] = value;
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("DirectoryList.xml")]
+        public string DirectoryList {
+            get {
+                return ((string)(this["DirectoryList"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string DirectoryName {
+            get {
+                return ((string)(this["DirectoryName"]));
+            }
+            set {
+                this["DirectoryName"] = value;
             }
         }
     }

@@ -1,6 +1,6 @@
 ﻿using CoreTweet;
-using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
+using System.Data;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,7 +13,7 @@ namespace MyScreenshotAssistant
         // Twitter API 認証情報
         CoreTweet.Tokens tokens = CoreTweet.Tokens.Create(API_Keys.consumerKey, API_Keys.cosumerSecret, Properties.Settings.Default.AccessToken, Properties.Settings.Default.AccessTokenSecret);
 
-        private System.IO.FileSystemWatcher watcher = null;
+        private FileSystemWatcher watcher = null;
 
         public MainForm()
         {
@@ -22,39 +22,48 @@ namespace MyScreenshotAssistant
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            Text = Text + Program.version;
+            Text = Text + Program.version; // バージョン表示
 
-            textbox_twitterid.Text = tokens.Account.VerifyCredentials().ScreenName;
+            if (!File.Exists(Properties.Settings.Default.DirectoryList))
+            {
+                dataSet1.WriteXml(Properties.Settings.Default.DirectoryList);
+            }
 
-            textBox_DP.Text = Properties.Settings.Default.DirectoryPath;
-            textBox_twtxt.Text = Properties.Settings.Default.TweetText;
-            textBox_hashtag.Text = Properties.Settings.Default.Hashtag;
+            dataSet1.ReadXml(Properties.Settings.Default.DirectoryList);
 
-            Activate();
+            textbox_twitterid.Text = tokens.Account.VerifyCredentials().ScreenName; // Twitter id 表示
+
+            textBox_DP.Text = Properties.Settings.Default.DirectoryName; // ディレクトリパスの復元
+            textBox_twtxt.Text = Properties.Settings.Default.TweetText; // ツイート内容の復元
+            textBox_hashtag.Text = Properties.Settings.Default.Hashtag; // ハッシュタグの復元
+
+            Activate(); // アクティブ化
         }
 
         // ディレクトリ選択
         private void button_path_Click(object sender, EventArgs e)
         {
-            var Dialog = new CommonOpenFileDialog();
-            Dialog.IsFolderPicker = true;
-            Dialog.EnsureReadOnly = false;
-            Dialog.AllowNonFileSystemItems = false;
+            new DPS().ShowDialog();
 
-            if (Properties.Settings.Default.DirectoryPath != null)
-            {
-                Dialog.DefaultDirectory = Properties.Settings.Default.DirectoryPath;
-            }
+            dataSet1.Clear();
 
-            if (Dialog.ShowDialog() == CommonFileDialogResult.Ok)
-            {
-                Properties.Settings.Default.DirectoryPath = Dialog.FileName;
-                textBox_DP.Text = Dialog.FileName;
-            }
+            dataSet1.ReadXml(Properties.Settings.Default.DirectoryList);
         }
 
         // ディレクトリの監視を開始
         private void button_start_Click(object sender, EventArgs e)
+        {
+            watcher_start();
+        }
+
+        // ディレクトリの監視を止める
+        private void button_stop_Click(object sender, EventArgs e)
+        {
+            watcher_stop();
+        }
+
+        // ディレクトリの監視を開始 (メゾット)
+        private void watcher_start()
         {
             if (watcher != null)
             {
@@ -62,26 +71,42 @@ namespace MyScreenshotAssistant
                 return;
             }
 
-            if (textBox_DP.Text == "")
+            try
             {
-                Method.message("Error", "ディレクトリが選択されていません");
-                return;
+                if (dataSet1.Tables["DataTable1"].Rows[textBox_DP.FindStringExact(textBox_DP.Text)][1].ToString() == "-1")
+                {
+                    Method.message("Error", "ディレクトリが記入されていません");
+                    return;
 
+                }
+            } catch
+            {
+                Method.message("Error", "設定データが見つかりません");
+                return;
             }
 
-            watcher = new System.IO.FileSystemWatcher();
-            watcher.Path = @textBox_DP.Text;
-            watcher.NotifyFilter =
-                (System.IO.NotifyFilters.LastAccess
-                | System.IO.NotifyFilters.LastWrite
-                | System.IO.NotifyFilters.FileName
-                | System.IO.NotifyFilters.DirectoryName); ;
-            watcher.Filter = "*.png";
-            watcher.SynchronizingObject = this;
+            try
+            {
+                watcher = new FileSystemWatcher();
+                watcher.Path = dataSet1.Tables["DataTable1"].Rows[textBox_DP.FindStringExact(textBox_DP.Text)][1].ToString();
+                watcher.NotifyFilter =
+                    (NotifyFilters.LastAccess
+                    | NotifyFilters.LastWrite
+                    | NotifyFilters.FileName
+                    | NotifyFilters.DirectoryName); ;
+                watcher.Filter = "*.png";
 
-            watcher.Created += new System.IO.FileSystemEventHandler(watcher_Changed);
+                watcher.SynchronizingObject = this;
 
-            watcher.EnableRaisingEvents = true;
+                watcher.Created += new FileSystemEventHandler(watcher_Changed);
+
+                watcher.EnableRaisingEvents = true;
+            } catch (ArgumentException)
+            {
+                Method.message("Error", "ディレクトリが存在しません");
+                watcher = null;
+                return;
+            }
 
             Text = "MyScreenshotAssistant - Status start" + Program.version;
 
@@ -91,8 +116,8 @@ namespace MyScreenshotAssistant
             notifyIcon1.ShowBalloonTip(2000);
         }
 
-        // ディレクトリの監視を止める
-        private void button_stop_Click(object sender, EventArgs e)
+        // ディレクトリの監視を止める (メゾット)
+        private void watcher_stop()
         {
             if (watcher == null)
             {
@@ -113,24 +138,12 @@ namespace MyScreenshotAssistant
             notifyIcon1.ShowBalloonTip(2000);
         }
 
-        // フォームが閉じられた時
-        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            if (e.CloseReason == CloseReason.UserClosing)
-            {
-                e.Cancel = true;
-                Hide();
-
-                notifyIcon1.BalloonTipText = "タスクトレイに常駐しています";
-                notifyIcon1.ShowBalloonTip(2000);
-            }
-        }
-
-        private async void watcher_Changed(System.Object source, System.IO.FileSystemEventArgs e)
+        //ディレクトリに変化があった時の処理
+        private async void watcher_Changed(object source, FileSystemEventArgs e)
         {
             switch (e.ChangeType)
             {
-                case System.IO.WatcherChangeTypes.Created:
+                case WatcherChangeTypes.Created:
                     // ファイルサイズの確認(5MB)
                     if (e.FullPath.Length < 5242880)
                     {
@@ -149,7 +162,7 @@ namespace MyScreenshotAssistant
                             MediaUploadResult[] result = await Task.WhenAll(tokens.Media.UploadAsync(media: new FileInfo(@e.FullPath)));
 
                             await tokens.Statuses.UpdateAsync(
-                                status: textBox_twtxt.Text.Replace(@"\n", "\n") + " " + textBox_hashtag.Text.Replace(@"\n", "\n") + Tweet.value + " #comeMSA \n" + e.Name,
+                                status: textBox_twtxt.Text.Replace(@"\n", "\n") + " " + textBox_hashtag.Text.Replace(@"\n", "\n") + Tweet.value + " #comeMSA",
                                 media_ids: result.Select(x => x.MediaId)
                             );
                             Method.logfile("Info", "Success tweet");
@@ -173,11 +186,24 @@ namespace MyScreenshotAssistant
             }
         }
 
+        // フォームが閉じられた時
+        private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                e.Cancel = true;
+                Hide();
+
+                notifyIcon1.BalloonTipText = "タスクトレイに常駐しています";
+                notifyIcon1.ShowBalloonTip(2000);
+            }
+        }
+
         // タスクトレイのアイコンをダブルクリックした時
         private void notifyIcon1_DoubleClick(object sender, EventArgs e)
         {
-            Show();
-            Activate();
+            Show(); // ウィンドウを表示
+            Activate(); // アクティブ化
         }
 
         // 認証情報削除
@@ -201,7 +227,7 @@ namespace MyScreenshotAssistant
         // 終了処理
         private void exit()
         {
-            Properties.Settings.Default.DirectoryPath = textBox_DP.Text;
+            Properties.Settings.Default.DirectoryName = textBox_DP.Text;
             Properties.Settings.Default.TweetText = textBox_twtxt.Text;
             Properties.Settings.Default.Hashtag = textBox_hashtag.Text;
             Properties.Settings.Default.Save();
@@ -212,6 +238,12 @@ namespace MyScreenshotAssistant
             }
 
             Application.Exit();
+        }
+
+        // ログファイルの表示
+        private void log_show_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start(@"MSA.log");
         }
     }
 }

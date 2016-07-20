@@ -32,7 +32,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.label1 = new System.Windows.Forms.Label();
             this.textbox_twitterid = new System.Windows.Forms.TextBox();
-            this.textBox_DP = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.button_start = new System.Windows.Forms.Button();
             this.button_stop = new System.Windows.Forms.Button();
@@ -40,13 +39,20 @@
             this.button_path = new System.Windows.Forms.Button();
             this.notifyIcon1 = new System.Windows.Forms.NotifyIcon(this.components);
             this.contextMenuStrip1 = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.log_show = new System.Windows.Forms.ToolStripMenuItem();
             this.context_exit = new System.Windows.Forms.ToolStripMenuItem();
             this.label3 = new System.Windows.Forms.Label();
             this.textBox_twtxt = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.textBox_hashtag = new System.Windows.Forms.TextBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.textBox_DP = new System.Windows.Forms.ComboBox();
+            this.dataTable1BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet1 = new MyScreenshotAssistant.DataSet1();
             this.contextMenuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dataTable1BindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -66,16 +72,8 @@
             this.textbox_twitterid.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
             this.textbox_twitterid.Name = "textbox_twitterid";
             this.textbox_twitterid.ReadOnly = true;
-            this.textbox_twitterid.Size = new System.Drawing.Size(153, 19);
+            this.textbox_twitterid.Size = new System.Drawing.Size(161, 19);
             this.textbox_twitterid.TabIndex = 1;
-            // 
-            // textBox_DP
-            // 
-            this.textBox_DP.Location = new System.Drawing.Point(91, 37);
-            this.textBox_DP.Margin = new System.Windows.Forms.Padding(3, 3, 3, 5);
-            this.textBox_DP.Name = "textBox_DP";
-            this.textBox_DP.Size = new System.Drawing.Size(153, 19);
-            this.textBox_DP.TabIndex = 2;
             // 
             // label2
             // 
@@ -109,9 +107,9 @@
             // button_Auth
             // 
             this.button_Auth.Font = new System.Drawing.Font("MS UI Gothic", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button_Auth.Location = new System.Drawing.Point(250, 10);
+            this.button_Auth.Location = new System.Drawing.Point(258, 10);
             this.button_Auth.Name = "button_Auth";
-            this.button_Auth.Size = new System.Drawing.Size(66, 19);
+            this.button_Auth.Size = new System.Drawing.Size(58, 19);
             this.button_Auth.TabIndex = 6;
             this.button_Auth.Text = "再認証";
             this.button_Auth.UseVisualStyleBackColor = true;
@@ -119,11 +117,11 @@
             // 
             // button_path
             // 
-            this.button_path.Location = new System.Drawing.Point(250, 37);
+            this.button_path.Location = new System.Drawing.Point(258, 37);
             this.button_path.Name = "button_path";
-            this.button_path.Size = new System.Drawing.Size(66, 19);
+            this.button_path.Size = new System.Drawing.Size(58, 20);
             this.button_path.TabIndex = 7;
-            this.button_path.Text = "参照";
+            this.button_path.Text = "設定";
             this.button_path.UseVisualStyleBackColor = true;
             this.button_path.Click += new System.EventHandler(this.button_path_Click);
             // 
@@ -139,14 +137,22 @@
             // contextMenuStrip1
             // 
             this.contextMenuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.log_show,
             this.context_exit});
             this.contextMenuStrip1.Name = "contextMenuStrip1";
-            this.contextMenuStrip1.Size = new System.Drawing.Size(99, 26);
+            this.contextMenuStrip1.Size = new System.Drawing.Size(126, 48);
+            // 
+            // log_show
+            // 
+            this.log_show.Name = "log_show";
+            this.log_show.Size = new System.Drawing.Size(125, 22);
+            this.log_show.Text = "ログを表示";
+            this.log_show.Click += new System.EventHandler(this.log_show_Click);
             // 
             // context_exit
             // 
             this.context_exit.Name = "context_exit";
-            this.context_exit.Size = new System.Drawing.Size(98, 22);
+            this.context_exit.Size = new System.Drawing.Size(125, 22);
             this.context_exit.Text = "終了";
             this.context_exit.Click += new System.EventHandler(this.context_exit_Click);
             // 
@@ -178,7 +184,7 @@
             // 
             this.textBox_hashtag.Location = new System.Drawing.Point(91, 94);
             this.textBox_hashtag.Name = "textBox_hashtag";
-            this.textBox_hashtag.Size = new System.Drawing.Size(224, 19);
+            this.textBox_hashtag.Size = new System.Drawing.Size(225, 19);
             this.textBox_hashtag.TabIndex = 11;
             // 
             // checkBox1
@@ -190,7 +196,29 @@
             this.checkBox1.Name = "checkBox1";
             this.checkBox1.Size = new System.Drawing.Size(15, 14);
             this.checkBox1.TabIndex = 12;
+            this.toolTip1.SetToolTip(this.checkBox1, "スクリーンショット毎にツイート内容を入力するかどうか");
             this.checkBox1.UseVisualStyleBackColor = true;
+            // 
+            // textBox_DP
+            // 
+            this.textBox_DP.DataSource = this.dataTable1BindingSource;
+            this.textBox_DP.DisplayMember = "name";
+            this.textBox_DP.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.textBox_DP.Location = new System.Drawing.Point(91, 37);
+            this.textBox_DP.Name = "textBox_DP";
+            this.textBox_DP.Size = new System.Drawing.Size(161, 20);
+            this.textBox_DP.TabIndex = 1;
+            this.textBox_DP.ValueMember = "name";
+            // 
+            // dataTable1BindingSource
+            // 
+            this.dataTable1BindingSource.DataMember = "DataTable1";
+            this.dataTable1BindingSource.DataSource = this.dataSet1;
+            // 
+            // dataSet1
+            // 
+            this.dataSet1.DataSetName = "DataSet1";
+            this.dataSet1.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // MainForm
             // 
@@ -198,6 +226,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Window;
             this.ClientSize = new System.Drawing.Size(328, 172);
+            this.Controls.Add(this.textBox_DP);
             this.Controls.Add(this.checkBox1);
             this.Controls.Add(this.textBox_hashtag);
             this.Controls.Add(this.label4);
@@ -208,7 +237,6 @@
             this.Controls.Add(this.button_stop);
             this.Controls.Add(this.button_start);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.textBox_DP);
             this.Controls.Add(this.textbox_twitterid);
             this.Controls.Add(this.label1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedToolWindow;
@@ -218,6 +246,8 @@
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainForm_FormClosing);
             this.Load += new System.EventHandler(this.MainForm_Load);
             this.contextMenuStrip1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.dataTable1BindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -227,7 +257,6 @@
 
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox textbox_twitterid;
-        private System.Windows.Forms.TextBox textBox_DP;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button_start;
         private System.Windows.Forms.Button button_stop;
@@ -241,5 +270,10 @@
         private System.Windows.Forms.ToolStripMenuItem context_exit;
         public System.Windows.Forms.NotifyIcon notifyIcon1;
         private System.Windows.Forms.CheckBox checkBox1;
+        private System.Windows.Forms.ToolTip toolTip1;
+        private System.Windows.Forms.ComboBox textBox_DP;
+        private System.Windows.Forms.ToolStripMenuItem log_show;
+        private System.Windows.Forms.BindingSource dataTable1BindingSource;
+        private DataSet1 dataSet1;
     }
 }

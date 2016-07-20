@@ -8,9 +8,6 @@
     <Setting Name="AccessTokenSecret" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
-    <Setting Name="DirectoryPath" Type="System.String" Scope="User">
-      <Value Profile="(Default)" />
-    </Setting>
     <Setting Name="TweetText" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
@@ -19,6 +16,12 @@
     </Setting>
     <Setting Name="IsUpgrade" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="DirectoryList" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">DirectoryList.xml</Value>
+    </Setting>
+    <Setting Name="DirectoryName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
     </Setting>
   </Settings>
 </SettingsFile>
