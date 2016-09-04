@@ -9,7 +9,7 @@ public static string cosumerSecret = "Consumer Secret";
 ```
 
 ## license
-MIT License
+MPL License
 
 ## library license
 ###[CoreTweet](https://github.com/CoreTweet/CoreTweet)
